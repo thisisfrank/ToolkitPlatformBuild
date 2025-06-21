@@ -1,8 +1,9 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "super-recruiter-portal",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "homepage": "https://[YOUR-USERNAME].github.io/[YOUR-REPO-NAME]",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
