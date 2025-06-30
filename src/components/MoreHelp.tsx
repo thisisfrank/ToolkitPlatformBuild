@@ -52,10 +52,15 @@ export default function MoreHelp() {
               ))}
             </ul>
 
-            <button className="w-full bg-gray-600 hover:bg-gray-700 text-white font-jakarta font-bold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 flex items-center justify-center">
+            <a 
+              href="https://calendly.com/superrecruiter/outboundcandidatepipelines" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-full bg-gray-600 hover:bg-gray-700 text-white font-jakarta font-bold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 flex items-center justify-center"
+            >
               Upgrade to Sourcing Service
               <ArrowRight className="w-5 h-5 ml-2" />
-            </button>
+            </a>
           </div>
         </div>
 
@@ -101,10 +106,15 @@ export default function MoreHelp() {
               ))}
             </ul>
 
-            <button className="w-full bg-supernova hover:bg-yellow-400 text-shadowforce font-jakarta font-bold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 flex items-center justify-center">
+            <a 
+              href="https://calendly.com/superrecruiter/outboundcandidatepipelines" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-full bg-supernova hover:bg-yellow-400 text-shadowforce font-jakarta font-bold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 flex items-center justify-center"
+            >
               Apply for Done-For-You
               <ArrowRight className="w-5 h-5 ml-2" />
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -115,33 +125,47 @@ export default function MoreHelp() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-gray-800/50 rounded-lg p-6 border border-gray-700/30">
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-supernova rounded-full flex items-center justify-center mr-4">
-                <Users className="w-6 h-6 text-shadowforce" />
+            <div className="flex flex-col">
+              <div className="flex mb-4">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className="w-5 h-5 text-supernova mr-1" fill="#FFCF00" />
+                ))}
               </div>
-              <div>
-                <h4 className="font-jakarta font-bold text-white">Mike Chen</h4>
-                <p className="text-gray-400 text-sm">Tech Recruiter</p>
+              <p className="font-jakarta text-sm text-gray-300 italic mb-6">
+                "We filled two roles in five weeks – without ever touching a staffing agency. Total game-changer for an early startup like ours."
+              </p>
+              <div className="flex items-center mt-auto">
+                <div className="w-12 h-12 bg-supernova rounded-full flex items-center justify-center mr-4">
+                  <Users className="w-6 h-6 text-shadowforce" />
+                </div>
+                <div>
+                  <h4 className="font-jakarta font-bold text-white">Leo Fernandez</h4>
+                  <p className="text-gray-400 text-sm">COO</p>
+                </div>
               </div>
             </div>
-            <p className="font-jakarta text-sm text-gray-300 italic">
-              "The sourcing service tripled my candidate pipeline. I went from struggling to find candidates to having too many qualified prospects."
-            </p>
           </div>
 
           <div className="bg-gray-800/50 rounded-lg p-6 border border-gray-700/30">
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-supernova rounded-full flex items-center justify-center mr-4">
-                <Crown className="w-6 h-6 text-shadowforce" />
+            <div className="flex flex-col">
+              <div className="flex mb-4">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className="w-5 h-5 text-supernova mr-1" fill="#FFCF00" />
+                ))}
               </div>
-              <div>
-                <h4 className="font-jakarta font-bold text-white">Sarah Martinez</h4>
-                <p className="text-gray-400 text-sm">Agency Owner</p>
+              <p className="font-jakarta text-sm text-gray-300 italic mb-6">
+                "We used the scorecard and interview bot to hire people we were actually excited about. The toolkit gave us structure we didn't even realize we were missing."
+              </p>
+              <div className="flex items-center mt-auto">
+                <div className="w-12 h-12 bg-supernova rounded-full flex items-center justify-center mr-4">
+                  <Crown className="w-6 h-6 text-shadowforce" />
+                </div>
+                <div>
+                  <h4 className="font-jakarta font-bold text-white">Jamie Patel</h4>
+                  <p className="text-gray-400 text-sm">Co-Founder</p>
+                </div>
               </div>
             </div>
-            <p className="font-jakarta text-sm text-gray-300 italic">
-              "Done-for-you service let me scale from $10K to $50K monthly revenue while working fewer hours. Game changer!"
-            </p>
           </div>
         </div>
       </div>
@@ -180,9 +204,14 @@ export default function MoreHelp() {
         <p className="font-jakarta text-gray-400 mb-8 text-lg">
           Let's discuss which service is the best fit for your business goals
         </p>
-        <button className="bg-supernova hover:bg-yellow-400 text-shadowforce font-jakarta font-bold py-4 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg">
+        <a 
+          href="https://calendly.com/superrecruiter/outboundcandidatepipelines" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="bg-supernova hover:bg-yellow-400 text-shadowforce font-jakarta font-bold py-4 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg inline-block"
+        >
           Schedule Free Consultation
-        </button>
+        </a>
       </div>
     </div>
   );
