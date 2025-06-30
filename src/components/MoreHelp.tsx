@@ -20,7 +20,7 @@ export default function MoreHelp() {
           <div className="bg-gradient-to-r from-gray-600 to-gray-700 p-6 text-white">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-anton text-2xl mb-2">Candidate Sourcing Service</h3>
+                <h3 className="font-anton text-2xl mb-2">Candidates on Calendar</h3>
                 <p className="font-jakarta opacity-90">We find the candidates, you close the deals</p>
               </div>
               <Zap className="w-12 h-12 opacity-60" />
@@ -69,8 +69,8 @@ export default function MoreHelp() {
           <div className="bg-gradient-to-r from-supernova to-yellow-400 p-6 text-shadowforce">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-anton text-2xl mb-2">Done-For-You Consulting</h3>
-                <p className="font-jakarta opacity-90">We handle everything, you collect the fees</p>
+                <h3 className="font-anton text-2xl mb-2">Candidates Screened & Verified</h3>
+                <p className="font-jakarta opacity-90">We handle everything</p>
               </div>
               <Crown className="w-12 h-12 opacity-60" />
             </div>
