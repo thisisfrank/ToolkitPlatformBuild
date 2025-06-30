@@ -1,28 +1,21 @@
 import React from 'react';
 import { 
-  Package, 
-  FileText, 
-  TrendingUp, 
-  LogOut,
-  User,
-  Zap,
-  Mail
+  Mail,
+  HelpCircle,
+  Zap
 } from 'lucide-react';
 
 interface SidebarProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
-  onLogout: () => void;
 }
 
 const navigationItems = [
-  { id: 'products', name: 'My Products', icon: Package },
-  { id: 'templates', name: 'Templates & Tools', icon: FileText },
   { id: 'email-generator', name: 'Email Generator', icon: Mail },
-  { id: 'upgrade', name: 'Upgrade Zone', icon: TrendingUp },
+  { id: 'more-help', name: 'More Help', icon: HelpCircle },
 ];
 
-export default function Sidebar({ activeSection, onSectionChange, onLogout }: SidebarProps) {
+export default function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
   return (
     <div className="w-64 bg-gray-900/95 backdrop-blur-sm border-r border-gray-700/50 text-white h-screen fixed left-0 top-0 z-10">
       {/* Logo */}
@@ -32,8 +25,8 @@ export default function Sidebar({ activeSection, onSectionChange, onLogout }: Si
             <Zap className="w-6 h-6 text-shadowforce" />
           </div>
           <div className="ml-3">
-            <h1 className="font-anton text-lg text-white">SUPER RECRUITER</h1>
-            <p className="text-xs text-supernova">Premium Portal</p>
+            <h1 className="font-anton text-lg text-white">RECRUITER TOOLS</h1>
+            <p className="text-xs text-supernova">Email Generator</p>
           </div>
         </div>
       </div>
@@ -62,15 +55,11 @@ export default function Sidebar({ activeSection, onSectionChange, onLogout }: Si
         </ul>
       </nav>
 
-      {/* Logout */}
+      {/* Footer */}
       <div className="p-4 border-t border-gray-700/50">
-        <button
-          onClick={onLogout}
-          className="w-full flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all duration-200 font-jakarta"
-        >
-          <LogOut className="w-5 h-5 mr-3" />
-          Logout
-        </button>
+        <p className="text-xs text-gray-400 font-jakarta text-center">
+          Premium Recruiting Tools
+        </p>
       </div>
     </div>
   );

@@ -1,9 +1,8 @@
 {
-  "name": "super-recruiter-portal",
+  "name": "recruiter-email-generator",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://[YOUR-USERNAME].github.io/[YOUR-REPO-NAME]",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
