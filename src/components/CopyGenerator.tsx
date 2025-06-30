@@ -626,39 +626,12 @@ export default function CopyGenerator() {
             </div>
           </div>
 
-          {/* Message Sequence Tips */}
-          <div className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-xl border border-gray-600/30 p-6">
-            <div className="flex items-center mb-4">
-              <Zap className="w-6 h-6 text-supernova mr-3" />
-              <h3 className="font-jakarta font-bold text-white">Message Sequence Tips</h3>
-            </div>
-            <div className="space-y-4">
-              <div className={`p-3 rounded-lg ${messageType === 'initial' ? 'bg-supernova/20 border border-supernova/30' : 'bg-gray-800/50'}`}>
-                <h4 className="font-jakarta font-semibold text-white text-sm mb-1">Initial Outreach</h4>
-                <p className="text-gray-300 font-jakarta text-xs">
-                  Keep it concise, personalized, and focused on value. Mention specific skills or experience.
-                </p>
-              </div>
-              
-              <div className={`p-3 rounded-lg ${messageType === 'follow-up' ? 'bg-supernova/20 border border-supernova/30' : 'bg-gray-800/50'}`}>
-                <h4 className="font-jakarta font-semibold text-white text-sm mb-1">Follow-Up (5-7 days later)</h4>
-                <p className="text-gray-300 font-jakarta text-xs">
-                  Reference your previous message and add new information or value. Keep it brief and respectful.
-                </p>
-              </div>
-              
-              <div className={`p-3 rounded-lg ${messageType === 'breakup' ? 'bg-supernova/20 border border-supernova/30' : 'bg-gray-800/50'}`}>
-                <h4 className="font-jakarta font-semibold text-white text-sm mb-1">Breakup (10-14 days after follow-up)</h4>
-                <p className="text-gray-300 font-jakarta text-xs">
-                  Politely close the conversation while leaving the door open for future communication.
-                </p>
-              </div>
-            </div>
-          </div>
-
           {/* Template Variables Info */}
           <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-700/50 p-6">
-            <h3 className="font-jakarta font-bold text-white mb-4">Template Variables</h3>
+            <div className="flex items-center mb-4">
+              <Zap className="w-6 h-6 text-supernova mr-3" />
+              <h3 className="font-jakarta font-bold text-white">Template Variables</h3>
+            </div>
             <p className="text-gray-300 font-jakarta text-sm mb-4">
               Switch to "Template" mode to copy the raw template with variables for reuse.
             </p>
