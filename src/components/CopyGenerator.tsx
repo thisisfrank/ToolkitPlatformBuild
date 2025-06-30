@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
-import { Copy, RefreshCw, Shuffle, Eye, Code, Mail, Zap } from 'lucide-react';
+import { Copy, RefreshCw, Shuffle, Eye, Code, Mail, MessageSquare, Zap } from 'lucide-react';
 
-interface EmailTemplate {
+interface CopyTemplate {
   subject: string;
   opening: string;
   body: string;
@@ -27,7 +27,8 @@ const industries = [
 const tones = ['Professional', 'Casual', 'Direct', 'Friendly'];
 const experienceLevels = ['Junior', 'Mid-Level', 'Senior', 'Executive'];
 
-const subjectTemplates = [
+// Email Templates
+const emailSubjectTemplates = [
   "{company_name} is hiring - your {role_title} expertise?",
   "Quick question about your {skill} background",
   "{role_title} opportunity at fast-growing {company_name}",
@@ -60,7 +61,26 @@ const subjectTemplates = [
   "Premium compensation: $150K-220K {role_title} role"
 ];
 
-const openingTemplates = {
+// LinkedIn Message Templates (shorter, more conversational)
+const linkedinSubjectTemplates = [
+  "Quick question about your {skill} background",
+  "{role_title} opportunity at {company_name}",
+  "Impressed by your {current_company} experience",
+  "Your {skill} expertise caught my attention",
+  "{first_name}, quick {role_title} question",
+  "Love your {industry} background",
+  "Perfect {role_title} role for you",
+  "{company_name} is looking for someone like you",
+  "Your {current_company} work is impressive",
+  "Quick chat about your career?",
+  "Exciting {role_title} opportunity",
+  "{first_name}, interested in {company_name}?",
+  "Your {skill} skills are exactly what we need",
+  "Confidential {role_title} role",
+  "{industry} opportunity at {company_name}"
+];
+
+const emailOpeningTemplates = {
   Tech: [
     "Hi {first_name}, saw your {skill} background at {current_company} and was impressed by your technical depth.",
     "Hi {first_name}, your experience with {skill} at {current_company} caught my attention.",
@@ -87,7 +107,35 @@ const openingTemplates = {
   ]
 };
 
-const bodyTemplates = {
+// LinkedIn openings (more casual, shorter)
+const linkedinOpeningTemplates = {
+  Tech: [
+    "Love your {skill} work at {current_company}!",
+    "Your {skill} background caught my eye.",
+    "Impressive tech work at {current_company}.",
+    "Your {industry} expertise is exactly what we need."
+  ],
+  Finance: [
+    "Your financial expertise at {current_company} is impressive.",
+    "Love your {industry} background.",
+    "Your analytical skills really stand out.",
+    "Impressive track record in {industry}."
+  ],
+  Healthcare: [
+    "Your healthcare experience is exactly what we need.",
+    "Love your {industry} background.",
+    "Impressive work at {current_company}.",
+    "Your healthcare expertise caught my attention."
+  ],
+  default: [
+    "Your experience at {current_company} caught my eye.",
+    "Love your {industry} background.",
+    "Your {skill} expertise is impressive.",
+    "Your professional background is exactly what we're looking for."
+  ]
+};
+
+const emailBodyTemplates = {
   Professional: [
     "I'm working with {company_name}, a {industry} company that's scaling rapidly. They're looking for a {role_title} who can {skill} and drive results.\n\nThe role offers competitive compensation, equity upside, and the opportunity to shape the direction of a growing team.\n\nWould you be open to a brief conversation to learn more?",
     "I represent {company_name}, a leading {industry} organization seeking a {role_title}. Your background at {current_company} demonstrates the exact expertise they need.\n\nThis is a senior-level position with significant growth potential and competitive compensation.\n\nWould you be interested in exploring this opportunity?",
@@ -110,7 +158,31 @@ const bodyTemplates = {
   ]
 };
 
-const ctaTemplates = [
+// LinkedIn body templates (much shorter)
+const linkedinBodyTemplates = {
+  Professional: [
+    "{company_name} is looking for a {role_title} with your {skill} background. Great compensation and growth opportunity.\n\nWorth a quick chat?",
+    "Working with {company_name} on a {role_title} role. Your {current_company} experience is exactly what they need.\n\nInterested in learning more?",
+    "{company_name} needs someone with your {skill} expertise. Competitive package and great team.\n\nOpen to a brief conversation?"
+  ],
+  Casual: [
+    "{company_name} is doing cool stuff in {industry} and looking for someone like you.\n\nWant to chat about it?",
+    "Thought you might be interested in what {company_name} is building. Perfect fit for your background.\n\nQuick call?",
+    "{company_name} needs a {role_title} and your {skill} experience is perfect.\n\nInterested in hearing more?"
+  ],
+  Direct: [
+    "{company_name} is hiring a {role_title}. Your background fits.\n\nCompetitive salary + equity.\n\nInterested?",
+    "{role_title} role at {company_name}. Your {skill} experience is exactly what they need.\n\nWorth discussing?",
+    "Direct: {company_name} needs a {role_title}. You're a perfect fit.\n\nQuick chat?"
+  ],
+  Friendly: [
+    "Hope you're doing well! {company_name} is looking for someone with your {skill} background.\n\nWould love to share more details!",
+    "Your work at {current_company} is impressive! {company_name} has a great {role_title} opportunity.\n\nInterested in learning more?",
+    "Hi! {company_name} is building something exciting and looking for talented {role_title}s.\n\nWould you be open to a quick chat?"
+  ]
+};
+
+const emailCtaTemplates = [
   "Are you available for a brief 15-minute call this week?",
   "Would you be open to a quick conversation?",
   "Can we schedule a brief call to discuss?",
@@ -123,7 +195,21 @@ const ctaTemplates = [
   "Are you open to a brief discussion about this opportunity?"
 ];
 
-export default function EmailGenerator() {
+const linkedinCtaTemplates = [
+  "Quick call this week?",
+  "Worth a chat?",
+  "Interested in learning more?",
+  "Open to a brief conversation?",
+  "Want to hear more?",
+  "Available for a quick call?",
+  "Worth discussing?",
+  "Interested in exploring this?",
+  "Quick conversation?",
+  "Open to chatting about this?"
+];
+
+export default function CopyGenerator() {
+  const [platform, setPlatform] = useState<'email' | 'linkedin'>('email');
   const [formData, setFormData] = useState<FormData>({
     candidateName: '',
     companyName: '',
@@ -135,7 +221,7 @@ export default function EmailGenerator() {
     currentCompany: ''
   });
 
-  const [template, setTemplate] = useState<EmailTemplate>({
+  const [template, setTemplate] = useState<CopyTemplate>({
     subject: '',
     opening: '',
     body: '',
@@ -150,6 +236,13 @@ export default function EmailGenerator() {
   };
 
   const generateTemplate = useCallback(() => {
+    const isEmail = platform === 'email';
+    
+    const subjectTemplates = isEmail ? emailSubjectTemplates : linkedinSubjectTemplates;
+    const openingTemplates = isEmail ? emailOpeningTemplates : linkedinOpeningTemplates;
+    const bodyTemplates = isEmail ? emailBodyTemplates : linkedinBodyTemplates;
+    const ctaTemplates = isEmail ? emailCtaTemplates : linkedinCtaTemplates;
+    
     const industryOpenings = openingTemplates[formData.industry as keyof typeof openingTemplates] || openingTemplates.default;
     const toneBodyTemplates = bodyTemplates[formData.tone as keyof typeof bodyTemplates] || bodyTemplates.Professional;
 
@@ -159,9 +252,16 @@ export default function EmailGenerator() {
       body: getRandomItem(toneBodyTemplates),
       cta: getRandomItem(ctaTemplates)
     });
-  }, [formData]);
+  }, [formData, platform]);
 
-  const refreshSection = (section: keyof EmailTemplate) => {
+  const refreshSection = (section: keyof CopyTemplate) => {
+    const isEmail = platform === 'email';
+    
+    const subjectTemplates = isEmail ? emailSubjectTemplates : linkedinSubjectTemplates;
+    const openingTemplates = isEmail ? emailOpeningTemplates : linkedinOpeningTemplates;
+    const bodyTemplates = isEmail ? emailBodyTemplates : linkedinBodyTemplates;
+    const ctaTemplates = isEmail ? emailCtaTemplates : linkedinCtaTemplates;
+    
     const industryOpenings = openingTemplates[formData.industry as keyof typeof openingTemplates] || openingTemplates.default;
     const toneBodyTemplates = bodyTemplates[formData.tone as keyof typeof bodyTemplates] || bodyTemplates.Professional;
 
@@ -197,13 +297,17 @@ export default function EmailGenerator() {
       .replace(/{skill}/g, formData.skillTechnology || '[Skill/Technology]');
   };
 
-  const getFullEmail = () => {
+  const getFullMessage = () => {
     const subject = fillVariables(template.subject);
     const opening = fillVariables(template.opening);
     const body = fillVariables(template.body);
     const cta = fillVariables(template.cta);
     
-    return `Subject: ${subject}\n\n${opening}\n\n${body}\n\n${cta}\n\nBest regards,\n[Your Name]`;
+    if (platform === 'email') {
+      return `Subject: ${subject}\n\n${opening}\n\n${body}\n\n${cta}\n\nBest regards,\n[Your Name]`;
+    } else {
+      return `${opening}\n\n${body}\n\n${cta}`;
+    }
   };
 
   const copyToClipboard = async (text: string, type: string) => {
@@ -228,9 +332,9 @@ export default function EmailGenerator() {
     <div className="space-y-12">
       {/* Header */}
       <div className="mb-12">
-        <h1 className="font-anton text-4xl text-white mb-3">EMAIL GENERATOR</h1>
+        <h1 className="font-anton text-4xl text-white mb-3">COPY GENERATOR</h1>
         <p className="font-jakarta text-gray-400 text-lg">
-          Create personalized recruiting outreach emails with Instantly integration
+          Create personalized recruiting outreach for email and LinkedIn
         </p>
       </div>
 
@@ -239,7 +343,7 @@ export default function EmailGenerator() {
         <div className="space-y-8">
           <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-700/50 p-8">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="font-anton text-2xl text-white">CUSTOMIZE EMAIL</h2>
+              <h2 className="font-anton text-2xl text-white">CUSTOMIZE COPY</h2>
               <button
                 onClick={generateTemplate}
                 className="bg-supernova hover:bg-yellow-400 text-shadowforce font-jakarta font-bold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 flex items-center"
@@ -247,6 +351,37 @@ export default function EmailGenerator() {
                 <Shuffle className="w-4 h-4 mr-2" />
                 Generate New
               </button>
+            </div>
+
+            {/* Platform Toggle */}
+            <div className="mb-8">
+              <label className="block text-sm font-jakarta font-medium text-white mb-3">
+                Platform
+              </label>
+              <div className="flex items-center bg-gray-800/50 rounded-lg p-1">
+                <button
+                  onClick={() => setPlatform('email')}
+                  className={`flex-1 py-3 px-4 rounded-md font-jakarta font-bold transition-all duration-200 flex items-center justify-center ${
+                    platform === 'email'
+                      ? 'bg-supernova text-shadowforce'
+                      : 'text-gray-300 hover:text-white'
+                  }`}
+                >
+                  <Mail className="w-4 h-4 mr-2" />
+                  Email
+                </button>
+                <button
+                  onClick={() => setPlatform('linkedin')}
+                  className={`flex-1 py-3 px-4 rounded-md font-jakarta font-bold transition-all duration-200 flex items-center justify-center ${
+                    platform === 'linkedin'
+                      ? 'bg-supernova text-shadowforce'
+                      : 'text-gray-300 hover:text-white'
+                  }`}
+                >
+                  <MessageSquare className="w-4 h-4 mr-2" />
+                  LinkedIn
+                </button>
+              </div>
             </div>
 
             <div className="space-y-6">
@@ -375,7 +510,9 @@ export default function EmailGenerator() {
         <div className="space-y-8">
           <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-700/50 p-8">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="font-anton text-2xl text-white">EMAIL PREVIEW</h2>
+              <h2 className="font-anton text-2xl text-white">
+                {platform === 'email' ? 'EMAIL' : 'LINKEDIN'} PREVIEW
+              </h2>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setViewMode('preview')}
@@ -403,25 +540,27 @@ export default function EmailGenerator() {
             </div>
 
             <div className="space-y-6">
-              {/* Subject Line */}
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <label className="text-sm font-jakarta font-medium text-white">
-                    Subject Line ({getCharacterCount(template.subject)} chars)
-                  </label>
-                  <button
-                    onClick={() => refreshSection('subject')}
-                    className="text-gray-400 hover:text-supernova transition-colors"
-                  >
-                    <RefreshCw className="w-4 h-4" />
-                  </button>
+              {/* Subject Line (Email only) */}
+              {platform === 'email' && (
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="text-sm font-jakarta font-medium text-white">
+                      Subject Line ({getCharacterCount(template.subject)} chars)
+                    </label>
+                    <button
+                      onClick={() => refreshSection('subject')}
+                      className="text-gray-400 hover:text-supernova transition-colors"
+                    >
+                      <RefreshCw className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <div className="bg-gray-800/50 border border-gray-600 rounded-lg p-4">
+                    <p className="text-white font-jakarta text-sm">
+                      {fillVariables(template.subject)}
+                    </p>
+                  </div>
                 </div>
-                <div className="bg-gray-800/50 border border-gray-600 rounded-lg p-4">
-                  <p className="text-white font-jakarta text-sm">
-                    {fillVariables(template.subject)}
-                  </p>
-                </div>
-              </div>
+              )}
 
               {/* Opening */}
               <div>
@@ -480,37 +619,56 @@ export default function EmailGenerator() {
               {/* Copy Buttons */}
               <div className="flex space-x-3 pt-4">
                 <button
-                  onClick={() => copyToClipboard(getFullEmail(), 'full')}
+                  onClick={() => copyToClipboard(getFullMessage(), 'full')}
                   className="flex-1 bg-supernova hover:bg-yellow-400 text-shadowforce font-jakarta font-bold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 flex items-center justify-center"
                 >
                   <Copy className="w-4 h-4 mr-2" />
-                  {copied === 'full' ? 'Copied!' : 'Copy Full Email'}
+                  {copied === 'full' ? 'Copied!' : `Copy Full ${platform === 'email' ? 'Email' : 'Message'}`}
                 </button>
-                <button
-                  onClick={() => copyToClipboard(fillVariables(template.subject), 'subject')}
-                  className="bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white font-jakarta font-bold py-3 px-4 rounded-lg transition-colors flex items-center"
-                >
-                  <Mail className="w-4 h-4 mr-2" />
-                  {copied === 'subject' ? 'Copied!' : 'Subject Only'}
-                </button>
+                {platform === 'email' && (
+                  <button
+                    onClick={() => copyToClipboard(fillVariables(template.subject), 'subject')}
+                    className="bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 hover:text-white font-jakarta font-bold py-3 px-4 rounded-lg transition-colors flex items-center"
+                  >
+                    <Mail className="w-4 h-4 mr-2" />
+                    {copied === 'subject' ? 'Copied!' : 'Subject Only'}
+                  </button>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Instantly Integration Info */}
+          {/* Platform-specific Integration Info */}
           <div className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 rounded-xl border border-gray-600/30 p-6">
             <div className="flex items-center mb-4">
               <Zap className="w-6 h-6 text-supernova mr-3" />
-              <h3 className="font-jakarta font-bold text-white">Instantly Integration</h3>
+              <h3 className="font-jakarta font-bold text-white">
+                {platform === 'email' ? 'Email Integration' : 'LinkedIn Tips'}
+              </h3>
             </div>
-            <p className="text-gray-300 font-jakarta text-sm mb-4">
-              Switch to "Template" mode to copy the raw template with variables for pasting directly into Instantly.
-            </p>
-            <div className="bg-gray-800/50 rounded-lg p-3">
-              <p className="text-gray-400 font-jakarta text-xs">
-                Variables: {'{company_name}'}, {'{role_title}'}, {'{first_name}'}, {'{current_company}'}, {'{skill}'}, {'{industry}'}
-              </p>
-            </div>
+            {platform === 'email' ? (
+              <>
+                <p className="text-gray-300 font-jakarta text-sm mb-4">
+                  Switch to "Template" mode to copy the raw template with variables for pasting directly into email automation tools.
+                </p>
+                <div className="bg-gray-800/50 rounded-lg p-3">
+                  <p className="text-gray-400 font-jakarta text-xs">
+                    Variables: {'{company_name}'}, {'{role_title}'}, {'{first_name}'}, {'{current_company}'}, {'{skill}'}, {'{industry}'}
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-gray-300 font-jakarta text-sm mb-4">
+                  LinkedIn messages are optimized for brevity and engagement. Character limits apply for connection requests.
+                </p>
+                <div className="bg-gray-800/50 rounded-lg p-3">
+                  <p className="text-gray-400 font-jakarta text-xs">
+                    Tip: Connection requests have a 300-character limit. Use shorter versions for initial outreach.
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

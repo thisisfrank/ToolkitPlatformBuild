@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-  Mail,
+  Edit3,
   HelpCircle,
   Zap
 } from 'lucide-react';
@@ -11,7 +11,7 @@ interface SidebarProps {
 }
 
 const navigationItems = [
-  { id: 'email-generator', name: 'Email Generator', icon: Mail },
+  { id: 'copy-generator', name: 'Copy Generator', icon: Edit3 },
   { id: 'more-help', name: 'More Help', icon: HelpCircle },
 ];
 
@@ -26,7 +26,7 @@ export default function Sidebar({ activeSection, onSectionChange }: SidebarProps
           </div>
           <div className="ml-3">
             <h1 className="font-anton text-lg text-white">RECRUITER TOOLS</h1>
-            <p className="text-xs text-supernova">Email Generator</p>
+            <p className="text-xs text-supernova">Copy Generator</p>
           </div>
         </div>
       </div>

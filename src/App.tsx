@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
-import EmailGenerator from './components/EmailGenerator';
+import CopyGenerator from './components/CopyGenerator';
 import MoreHelp from './components/MoreHelp';
 
 function App() {
-  const [activeSection, setActiveSection] = useState('email-generator');
+  const [activeSection, setActiveSection] = useState('copy-generator');
 
   const renderContent = () => {
     switch (activeSection) {
-      case 'email-generator':
-        return <EmailGenerator />;
+      case 'copy-generator':
+        return <CopyGenerator />;
       case 'more-help':
         return <MoreHelp />;
       default:
-        return <EmailGenerator />;
+        return <CopyGenerator />;
     }
   };
 
